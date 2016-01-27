@@ -43,9 +43,9 @@ from flask_apscheduler import APScheduler
 import random
 import os
 import states
- 
-cur_status=None
-cur_dest_id=None
+import wiringpi2 as wiringpi
+cur_status = None
+cur_dest_id = None
 dest_conf = DestinationsConfig()
 
 def update_state():
@@ -55,8 +55,10 @@ def update_state():
         msg = ' '
         if cur_status == states.PLAY:
                 msg = dest_conf.id_tree[cur_dest_id]['name']
+		pin_on(cur_dest_id)
+	else:
+		resetPins()
         socketio.emit('my response',{'data':msg},namespace='/test')
-
 
 def set_status(value):
         global cur_status
@@ -70,22 +72,44 @@ def check_status():
                 if 'State' in line:
                         set_status(line)
 
-
 def play(destination_id):
 	global dest_conf
 	snd = random.choice(dest_conf.id_tree[destination_id]['sounds'])
 	cmd = 'mocp -a -p %s' % snd
+	os.system('mocp -s -c')
 	os.system(cmd)
 
+def resetPins():
+	global dest_conf
+        for key,value in dest_conf.id_tree.items():
+                pin = value['gpio_pin']
+		wiringpi.digitalWrite(pin,1)
+
+def setupPins():
+	global dest_conf
+	for key,value in dest_conf.id_tree.items():
+		pin =  value['gpio_pin']
+		wiringpi.pinMode(pin,1)
+
+def pin_on(dest_id):
+	global dest_conf
+        for key,value in dest_conf.id_tree.items():
+                pin =  value['gpio_pin']
+                wiringpi.digitalWrite(pin,key!=dest_id)
  
 ''' Server init '''
+#gpio
+wiringpi.wiringPiSetup()
+setupPins()
+resetPins()
+
+#mocp player	
 os.system('mocp -S');
 
+#flask & jobs
 app = Flask(__name__)
 app.config.from_object(Config())
-
 socketio = SocketIO(app)
-
 scheduler = APScheduler()
 scheduler.init_app(app)
 scheduler.start()

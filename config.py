@@ -4,11 +4,13 @@ import os
 destinations = [
     {
         'name':u'Арес-7',
-        'id':'ares_7'
+        'id':'ares_7',
+	'gpio_pin':0
     },
     {
         'name':u'Станция "Вектор"',
-        'id':'vector'
+        'id':'vector',
+	'gpio_pin':1
     }
 ]
 
@@ -24,7 +26,8 @@ class DestinationsConfig(object):
 	for item in self.destinations:
             self.id_tree[item['id']] = {
                 'name':item['name'],
-		'sounds': [os.path.join(app_dir,'sounds',item['id'],f) for f in os.listdir(os.path.join(app_dir,'sounds',item['id'])) if f.endswith('.mp3')]
+		'sounds': [os.path.join(app_dir,'sounds',item['id'],f) for f in os.listdir(os.path.join(app_dir,'sounds',item['id'])) if f.endswith('.mp3')],
+                'gpio_pin':item['gpio_pin']
             }
 
 
