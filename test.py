@@ -42,25 +42,34 @@ import time
 from flask_apscheduler import APScheduler
 import random
 import os
+import states
  
-cur_status=''
-cur_destination=''
+cur_status=None
+cur_dest_id=None
 dest_conf = DestinationsConfig()
+
+def update_state():
+        global socketio
+        global cur_dest_id
+        global dest_conf
+        msg = ' '
+        if cur_status == states.PLAY:
+                msg = dest_conf.id_tree[cur_dest_id]['name']
+        socketio.emit('my response',{'data':msg},namespace='/test')
+
 
 def set_status(value):
         global cur_status
         if cur_status != value:
                 cur_status = value
-		print str(cur_status)
-		global socketio
-                socketio.emit('my response',{'data':cur_status},namespace='/test')
-
+		update_state()
 
 def check_status():
         cmd = subprocess.Popen('mocp -i', shell=True, stdout=subprocess.PIPE)
         for line in cmd.stdout:
                 if 'State' in line:
                         set_status(line)
+
 
 def play(destination_id):
 	global dest_conf
@@ -90,9 +99,10 @@ def index():
 
 @socketio.on('fly',namespace='/test')
 def fly(message):
-	global dest_conf
-	print(dest_conf.id_tree[message['data']])
-	play(message['data'])
+	global cur_dest_id
+	cur_dest_id = message['data']
+	play(cur_dest_id)
+	update_state()
 
 @socketio.on('stop', namespace='/test')
 def stop(message):
