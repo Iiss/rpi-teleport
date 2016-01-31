@@ -109,7 +109,8 @@ setupPins()
 resetPins()
 
 #mocp player	
-os.system('mocp -S');
+os.system('mocp -S')
+os.system('mocp -s -c')
 
 #flask & jobs
 app = Flask(__name__)
