@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 
+STOP_STATE_MSG = u'Cвободен'
+
 destinations = [
     {
         'name':u'Арес-7',

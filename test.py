@@ -44,19 +44,18 @@ import random
 import os
 import states
 import wiringpi2 as wiringpi
-cur_status = None
-cur_dest_id = None
-dest_conf = DestinationsConfig()
+import config
 
 def update_state():
         global socketio
         global cur_dest_id
         global dest_conf
-        msg = ' '
+        global msg
         if cur_status == states.PLAY:
                 msg = dest_conf.id_tree[cur_dest_id]['name']
 		pin_on(cur_dest_id)
 	else:
+		msg = config.STOP_STATE_MSG
 		resetPins()
         socketio.emit('my response',{'data':msg},namespace='/test')
 
@@ -98,6 +97,12 @@ def pin_on(dest_id):
                 wiringpi.digitalWrite(pin,key!=dest_id)
  
 ''' Server init '''
+#vars
+cur_status = None
+cur_dest_id = None
+dest_conf = DestinationsConfig()
+msg = config.STOP_STATE_MSG
+
 #gpio
 wiringpi.wiringPiSetup()
 setupPins()
@@ -142,7 +147,8 @@ def test_message(message):
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
-	emit('my response', {'data':'Connected'})
+	global msg
+	emit('my response', {'data':msg})
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
