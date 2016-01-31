@@ -130,16 +130,15 @@ def index():
 @socketio.on('fly',namespace='/test')
 def fly(message):
 	global cur_dest_id
-	if message['data'] != cur_dest_id:
+	global cur_status
+	if cur_status == states.STOP or message['data'] != cur_dest_id:
 		cur_dest_id = message['data']
 		play(cur_dest_id)
 		update_state()
 
 @socketio.on('stop', namespace='/test')
 def stop(message):
-	os.system('mocp -s -c');
-	global cur_dest_id
-	cur_dest_id = None
+	os.system('mocp -s -c')
 
 @socketio.on('my event', namespace='/test')
 def test_message(message):

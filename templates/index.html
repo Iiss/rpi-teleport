@@ -17,9 +17,8 @@
             // this is specially important when using the global namespace
             var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
             // event handler for server sent data
-            // the data is displayed in the "Received" section of the page
+            // the data is displayed in the "State" section of the page
 	    socket.on('my response', function(msg) {
-                $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
 		$('#state').text(msg.data)
             });
             //handlers for connection status
@@ -54,6 +53,5 @@
     <form id="stop" method="POST" action='#'>
 	<input type="submit" value="Stop"/>
     </form>
-    <div id="log"></div>
 </body>
 </html>
