@@ -22,10 +22,10 @@
                 $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
 		$('#state').text(msg.data)
             });
-            // event handler for new connections
-            //socket.on('connect', function() {
-            //    socket.emit('my event', {data: 'I\'m connected!'});
-            //});
+            //handlers for connection status
+	    socket.on('disconnect', function() {
+	    $('#state').text('Нет связи')
+	    });
             // handlers for the different forms in the page
             // these send data to the server in a variety of ways
             
