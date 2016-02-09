@@ -7,12 +7,12 @@ destinations = [
     {
         'name':u'Арес-7',
         'id':'ares_7',
-	'gpio_pin':0
+	'gpio_pin':1
     },
     {
         'name':u'Станция "Вектор"',
         'id':'vector',
-	'gpio_pin':1
+	'gpio_pin':0
     }
 ]
 
