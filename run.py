@@ -119,10 +119,6 @@ scheduler.start()
 
 
 ''' Routing & events '''
-@app.route('/test')
-def test_route():
-	return render_template('teleport.html')
-
 @app.route('/')
 def index():
 	global dest_conf
