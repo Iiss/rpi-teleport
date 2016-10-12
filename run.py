@@ -122,7 +122,7 @@ scheduler.start()
 @app.route('/')
 def index():
 	global dest_conf
-	return render_template('index.html',destinations=dest_conf.destinations)
+	return render_template('index.html',title=config.Title,destinations=dest_conf.destinations)
 
 @socketio.on('fly',namespace='/test')
 def fly(message):

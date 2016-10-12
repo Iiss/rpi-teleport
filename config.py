@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+TITLE = u'Teleport #1'
 STOP_STATE_MSG = u'Cвободен'
 
 destinations = [
