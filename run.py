@@ -72,12 +72,12 @@ def check_status():
                         set_status(line)
 
 def play(destination_id):
-	global dest_conf
-	snd = random.choice(dest_conf.id_tree[destination_id]['sounds'])
-	cmd = 'mocp -a -p %s' % snd
+    global dest_conf
+    snd = random.choice(dest_conf.id_tree[destination_id]['sounds'])
+    cmd = 'mocp -a -p %s' % snd
     os.system('mocp -S')
-	os.system('mocp -s -c')
-	os.system(cmd)
+    os.system('mocp -s -c')
+    os.system(cmd)
 
 def resetPins():
 	global dest_conf
@@ -122,7 +122,7 @@ scheduler.start()
 @app.route('/')
 def index():
 	global dest_conf
-	return render_template('index.html',title=config.Title,destinations=dest_conf.destinations)
+	return render_template('index.html',title=config.TITLE,destinations=dest_conf.destinations)
 
 @socketio.on('fly',namespace='/test')
 def fly(message):
@@ -160,4 +160,4 @@ if __name__ == '__main__':
     #mocp player    
     os.system('mocp -S')
     os.system('mocp -s -c')
-	socketio.run(app, host='0.0.0.0')
+    socketio.run(app, host='0.0.0.0')
