@@ -18,4 +18,5 @@ sudo apt-get -y install moc
 # step 5: complete installation
 virtualenv venv
 sudo venv/bin/pip install -r requirements.txt
+touch ~/logs/cronlog
 
