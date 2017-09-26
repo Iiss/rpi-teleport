@@ -3,6 +3,7 @@ import os
 
 TITLE = u'Teleport #1'
 STOP_STATE_MSG = u'Cвободен'
+BUSY_PIN=2
 
 destinations = [
     {

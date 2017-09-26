@@ -3,7 +3,7 @@
 # deploy teleport application to current directory & install it's dependencies
 
 # step 0:
-sudo apt-get update
+#sudo apt-get update
 
 # step 1: install pip & virtualenv
 sudo apt-get -y install python-pip

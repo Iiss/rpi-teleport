@@ -84,18 +84,24 @@ def resetPins():
         for key,value in dest_conf.id_tree.items():
                 pin = value['gpio_pin']
 		wiringpi.digitalWrite(pin,1)
+	#lightbox support
+        wiringpi.digitalWrite(config.BUSY_PIN,1)
 
 def setupPins():
 	global dest_conf
 	for key,value in dest_conf.id_tree.items():
 		pin =  value['gpio_pin']
 		wiringpi.pinMode(pin,1)
+	#lightbox support
+        wiringpi.pinMode(config.BUSY_PIN,1)
 
 def pin_on(dest_id):
 	global dest_conf
         for key,value in dest_conf.id_tree.items():
                 pin =  value['gpio_pin']
                 wiringpi.digitalWrite(pin,key!=dest_id)
+	#lightbox support
+	wiringpi.digitalWrite(config.BUSY_PIN,0)
  
 ''' Server init '''
 #vars
